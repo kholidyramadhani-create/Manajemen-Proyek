@@ -1,0 +1,2845 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Latihan Soal Manajemen Proyek</title>
+    <style>
+        /* ===== RESET & VARIABEL (sama seperti template) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f5f7fc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #475569;
+            --border: #e2e8f0;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #dbeafe;
+            --success: #16a34a;
+            --success-light: #dcfce7;
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --gray: #94a3b8;
+            --gray-light: #f1f5f9;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 0.25s ease;
+        }
+
+        .dark {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-light: #1e293b;
+            --success: #22c55e;
+            --success-light: #14532d;
+            --danger: #ef4444;
+            --danger-light: #7f1d1d;
+            --warning: #f59e0b;
+            --warning-light: #713f12;
+            --gray: #64748b;
+            --gray-light: #1e293b;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background var(--transition), color var(--transition);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        #app {
+            max-width: 960px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px 28px;
+            margin-bottom: 20px;
+            transition: background var(--transition), box-shadow var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--transition), transform 0.15s, box-shadow var(--transition);
+            background: var(--gray-light);
+            color: var(--text);
+            text-decoration: none;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #15803d;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover {
+            background: var(--gray-light);
+        }
+
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 0.8rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .header-top h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .header-top h1 small {
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .header-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .header-stats .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        .badge-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+        .badge-danger {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+        .badge-warning {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+        .badge-gray {
+            background: var(--gray-light);
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--gray-light);
+            border-radius: 99px;
+            overflow: hidden;
+            margin: 12px 0 4px;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+
+        .question-number {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 2px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--gray-light);
+            border-radius: var(--radius-sm);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: background var(--transition), border-color var(--transition), transform 0.15s;
+            font-size: 0.95rem;
+        }
+        .option:hover:not(.disabled) {
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+        .option .letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .option .text {
+            flex: 1;
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+        .option.correct .letter {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+        }
+
+        .option.wrong {
+            border-color: var(--danger);
+            background: var(--danger-light);
+        }
+        .option.wrong .letter {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: #fff;
+        }
+
+        .option.disabled {
+            cursor: default;
+        }
+        .option.disabled:hover {
+            border-color: transparent;
+            transform: none;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+        }
+
+        .feedback {
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            margin: 12px 0 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: none;
+        }
+        .feedback.show {
+            display: block;
+        }
+        .feedback.correct {
+            background: var(--success-light);
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+        .feedback.wrong {
+            background: var(--danger-light);
+            border-left: 4px solid var(--danger);
+            color: var(--danger);
+        }
+        .feedback .answer-reveal {
+            font-weight: 600;
+        }
+        .feedback .explanation {
+            margin-top: 6px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: var(--text-secondary);
+        }
+
+        .question-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0 8px;
+        }
+        .question-nav .qn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: var(--gray-light);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background var(--transition), transform 0.15s;
+            border: 1.5px solid transparent;
+        }
+        .question-nav .qn:hover {
+            transform: scale(1.05);
+        }
+        .question-nav .qn.active {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .question-nav .qn.answered-correct {
+            background: var(--success);
+            color: #fff;
+        }
+        .question-nav .qn.answered-wrong {
+            background: var(--danger);
+            color: #fff;
+        }
+        .question-nav .qn.current {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .setup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .setup-grid label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .setup-grid select,
+        .setup-grid input {
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: border var(--transition);
+        }
+        .setup-grid select:focus,
+        .setup-grid input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .setup-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .mode-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0 16px;
+        }
+        .mode-tabs .btn {
+            flex: 1;
+            min-width: 100px;
+            justify-content: center;
+        }
+        .mode-tabs .btn.active-mode {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .review-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        .review-item .r-num {
+            font-weight: 700;
+            min-width: 40px;
+            font-size: 0.9rem;
+        }
+        .review-item .r-q {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        .review-item .r-answer {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .review-item .r-answer.correct {
+            color: var(--success);
+        }
+        .review-item .r-answer.wrong {
+            color: var(--danger);
+        }
+
+        .review-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+            .card {
+                padding: 16px;
+            }
+            .header-top h1 {
+                font-size: 1.2rem;
+            }
+            .header-stats {
+                font-size: 0.8rem;
+                gap: 10px;
+            }
+            .question-text {
+                font-size: 0.95rem;
+            }
+            .option {
+                font-size: 0.9rem;
+                padding: 10px 14px;
+            }
+            .setup-grid {
+                grid-template-columns: 1fr;
+            }
+            .mode-tabs .btn {
+                min-width: 60px;
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+            .question-nav .qn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.7rem;
+            }
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .mb-8 {
+            margin-bottom: 8px;
+        }
+        .gap-8 {
+            gap: 8px;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .text-center {
+            text-align: center;
+        }
+
+        .result-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .result-detail {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .scroll-x {
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .theme-toggle:hover {
+            background: var(--gray-light);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+
+        <!-- ===== HEADER ===== -->
+        <div class="card">
+            <div class="header-top">
+                <h1>📘 Manajemen Proyek <small>135 Soal</small></h1>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <span class="header-stats">
+                        <span id="progressText">0/0</span>
+                        <span>|</span>
+                        <span>✅ <span id="correctCount">0</span></span>
+                        <span>❌ <span id="wrongCount">0</span></span>
+                        <span>🎯 <span id="scorePercent">0%</span></span>
+                    </span>
+                    <button class="theme-toggle" id="themeToggle" title="Mode Gelap">🌙</button>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="fill" id="progressFill" style="width:0%"></div>
+            </div>
+        </div>
+
+        <!-- ===== SETUP / MODE ===== -->
+        <div class="card" id="setupPanel">
+            <div class="card-header">
+                <span class="card-title">⚙️ Pengaturan Latihan</span>
+                <span style="font-size:0.85rem;color:var(--text-secondary);">Total soal: <strong id="totalSoalDisplay">135</strong></span>
+            </div>
+
+            <div class="mode-tabs" id="modeTabs">
+                <button class="btn active-mode" data-mode="all">📚 Semua Soal</button>
+                <button class="btn" data-mode="count">🔢 Pilih Jumlah</button>
+                <button class="btn" data-mode="range">📏 Rentang</button>
+                <button class="btn" data-mode="pick">☑️ Pilih Tertentu</button>
+                <button class="btn" data-mode="random">🎲 Acak</button>
+            </div>
+
+            <div id="modeOptions">
+                <!-- Dinamis via JS -->
+            </div>
+
+            <div class="setup-actions">
+                <button class="btn btn-primary" id="startBtn">🚀 Mulai Latihan</button>
+                <button class="btn btn-outline" id="resetBtn">🔄 Mulai Ulang</button>
+            </div>
+
+            <div style="margin-top:12px;font-size:0.85rem;color:var(--text-secondary);">
+                💡 Pilih mode lalu klik "Mulai Latihan"
+            </div>
+        </div>
+
+        <!-- ===== PANEL SOAL ===== -->
+        <div class="card hidden" id="questionPanel">
+            <div class="flex-between mb-8">
+                <div>
+                    <span class="question-number" id="qNumDisplay">Soal 1</span>
+                    <span style="margin-left:8px;font-size:0.85rem;color:var(--text-secondary);" id="qIndexDisplay">1 / 135</span>
+                </div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <button class="btn btn-sm btn-outline" id="prevBtn">◀ Sebelum</button>
+                    <button class="btn btn-sm btn-outline" id="nextBtn">Berikut ▶</button>
+                </div>
+            </div>
+
+            <div class="question-text" id="questionText">Loading...</div>
+
+            <div class="options" id="optionsContainer"></div>
+
+            <div class="feedback" id="feedback">
+                <div class="answer-reveal" id="feedbackAnswer"></div>
+                <div class="explanation" id="feedbackExplanation"></div>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                <button class="btn btn-success" id="nextQuestionBtn" disabled>➡️ Soal Berikutnya</button>
+                <button class="btn btn-outline" id="reviewToggleBtn">📋 Review</button>
+            </div>
+
+            <div class="scroll-x mt-12">
+                <div class="question-nav" id="questionNav"></div>
+            </div>
+        </div>
+
+        <!-- ===== PANEL REVIEW ===== -->
+        <div class="card hidden" id="reviewPanel">
+            <div class="card-header">
+                <span class="card-title">📋 Review Jawaban</span>
+                <button class="btn btn-sm btn-outline" id="closeReviewBtn">✕ Tutup</button>
+            </div>
+            <div class="review-filter">
+                <button class="btn btn-sm btn-outline active-review-filter" data-filter="all">Semua</button>
+                <button class="btn btn-sm btn-outline" data-filter="correct">✅ Benar</button>
+                <button class="btn btn-sm btn-outline" data-filter="wrong">❌ Salah</button>
+                <button class="btn btn-sm btn-outline" data-filter="unanswered">⬜ Belum</button>
+            </div>
+            <div id="reviewList"></div>
+        </div>
+
+        <!-- ===== PANEL HASIL ===== -->
+        <div class="card hidden" id="resultPanel">
+            <div class="text-center">
+                <div style="font-size:3rem;margin-bottom:8px;">🏆</div>
+                <div class="result-score" id="finalScore">0%</div>
+                <div class="result-detail">
+                    ✅ Benar: <span id="finalCorrect">0</span> &nbsp;|&nbsp; ❌ Salah: <span id="finalWrong">0</span>
+                </div>
+                <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" id="retryWrongBtn">🔁 Kerjakan Ulang Soal Salah</button>
+                    <button class="btn btn-outline" id="resultResetBtn">🔄 Mulai Ulang</button>
+                </div>
+                <div style="margin-top:20px;">
+                    <button class="btn btn-outline" id="resultReviewBtn">📋 Lihat Review</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        //  1.  DATA SOAL (135 SOAL) dari LATSOL MANAJEMEN PROYEK
+        // ============================================================
+        const MASTER_QUESTIONS = [{
+            id: 1,
+            question: "Kriteria keputusan Initial Rate Return (IRR) untuk proyek independen adalah jika ....",
+            options: [
+                "A. IRR > Cost of capital maka proyek diterima",
+                "B. IRR < Cost of capital maka proyek ditolak",
+                "C. IRR = Cost of equity maka proyek diterima",
+                "D. IRR > Cost of equity maka proyek ditolak"
+            ],
+            correct: 0,
+            explanation: "IRR > Cost of capital → proyek diterima (kunci: 1)"
+        }, {
+            id: 2,
+            question: "Salah satu pertimbangan yang ada dalam faktor keuangan yang digunakan untuk evaluasi proyek yakni...",
+            options: [
+                "A. Peluang market shared yang terkait dengan segmentasi pasar",
+                "B. Ukuran pasar potensial",
+                "C. Waktu yang digunakan untuk mengembalikan modal proyek",
+                "D. Waktu pengerjaan dengan menggunakan konsep skala prioritas"
+            ],
+            correct: 2,
+            explanation: "Waktu pengembalian modal (payback period) adalah faktor keuangan."
+        }, {
+            id: 3,
+            question: "Upaya yang dapat dilakukan dalam menjamin kualitas proyek dari sisi pengorganisasian adalah...",
+            options: [
+                "A. membuat penghematan di berbagai lini agar terwujud efisiensi anggaran",
+                "B. menggunakan teknik penggerakan kualitas proyek",
+                "C. membentuk tim kerja mandiri dan tim kerja profesional",
+                "D. membuat rencana perbaikan kualitas"
+            ],
+            correct: 2,
+            explanation: "Membentuk tim kerja mandiri dan profesional (kunci: 3)"
+        }, {
+            id: 4,
+            question: "Tolak ukur mutu yang menitikberatkan bahwa produk atau jasa yang dihasilkan harus sesuai dengan standar desain adalah...",
+            options: [
+                "A. Kesesuaian",
+                "B. Penggunaan",
+                "C. Desain",
+                "D. Bahan"
+            ],
+            correct: 0,
+            explanation: "Kesesuaian (conformance) terhadap standar desain."
+        }, {
+            id: 5,
+            question: "Aspek dasar dan pemasaran yang dinilai dalam studi kelayakan adalah...",
+            options: [
+                "A. aspek budaya",
+                "B. potensi pasar",
+                "C. jumlah konsumen potensial",
+                "D. potensi pasar dan jumlah konsumen potensial"
+            ],
+            correct: 3,
+            explanation: "Potensi pasar & jumlah konsumen potensial (kunci: 2 & 3)"
+        }, {
+            id: 6,
+            question: "Karakteristik penjaminan kualitas adalah...",
+            options: [
+                "A. aktivitas yang sistematis dan terencana",
+                "B. dilakukan dengan menggunakan sistem kualitas",
+                "C. tujuannya untuk memastikan barang/jasa sesuai standar",
+                "D. semua pernyataan benar"
+            ],
+            correct: 3,
+            explanation: "Semua pernyataan benar (kunci: 1,2,3)"
+        }, {
+            id: 7,
+            question: "Berikut ini yang merupakan dimensi kualitas menurut Juran adalah...",
+            options: [
+                "A. kemudahan",
+                "B. kesesuaian",
+                "C. keamanan",
+                "D. semua benar"
+            ],
+            correct: 1,
+            explanation: "Kesesuaian adalah dimensi Juran (kunci: 2)"
+        }, {
+            id: 8,
+            question: "Ciri dari organisasi produk adalah...",
+            options: [
+                "A. perusahaan memiliki beragam jenis produk",
+                "B. pembagian kerja berorientasi pada produk dan bersifat otonomi",
+                "C. pembagian kerja berdasarkan fungsi-fungsi manajemen",
+                "D. A dan B benar"
+            ],
+            correct: 3,
+            explanation: "Ciri organisasi produk: beragam produk & orientasi produk (kunci: 1 & 2)"
+        }, {
+            id: 9,
+            question: "Tujuan dilakukannya perencanaan proyek adalah...",
+            options: [
+                "A. mendorong upaya koordinasi",
+                "B. mengurangi ketidakpastian",
+                "C. mengurangi tumpang tindih aktivitas",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua tujuan perencanaan proyek (kunci: 1,2,3)"
+        }, {
+            id: 10,
+            question: "Jika dalam proyek 'pemberdayaan usaha perempuan dan anak putus sekolah' dilakukan pengamatan kinerja proyek, maka salah satu cara pengamatan kinerja tersebut adalah...",
+            options: [
+                "A. Kunjungan studi banding",
+                "B. Membuat catatan kajian dari laporan",
+                "C. Kunjungan informal ke seluruh unit kerja untuk mengamati kinerja",
+                "D. Menindaklanjuti hasil konsultasi dengan pakar"
+            ],
+            correct: 2,
+            explanation: "Kunjungan informal ke seluruh unit kerja (kunci: C)"
+        }, {
+            id: 11,
+            question: "Jenis evaluasi proyek yang dilakukan guna melihat keberhasilan suatu proyek dikenal dengan istilah...",
+            options: [
+                "A. Pre-Project evaluation",
+                "B. On-going Project evaluation",
+                "C. Completion Project Evolution",
+                "D. Post-Project Evolution"
+            ],
+            correct: 3,
+            explanation: "Post-Project Evaluation untuk melihat keberhasilan setelah proyek selesai."
+        }, {
+            id: 12,
+            question: "Teknik peramalan proyek dengan menggunakan seperangkat persamaan regresi untuk menyimulasikan segmen-segmen atau tindakan ekonomi disebut...",
+            options: [
+                "A. Analisis rangkaian waktu",
+                "B. Komposisi hasil proyek",
+                "C. Model regresi",
+                "D. Model ekonometrik"
+            ],
+            correct: 3,
+            explanation: "Model ekonometrik menggunakan persamaan regresi."
+        }, {
+            id: 13,
+            question: "Waktu mulai dini (early stage) bagi pekerjaan C ke E adalah pada hari... (lihat gambar network diagram)",
+            options: [
+                "A. 15 hari",
+                "B. 25 hari",
+                "C. 40 hari",
+                "D. 50 hari"
+            ],
+            correct: 1,
+            explanation: "Berdasarkan diagram, early start C→E = 25 hari."
+        }, {
+            id: 14,
+            question: "Pernyataan berikut yang menjadi keunggulan rencana kerja berbentuk bagan adalah...",
+            options: [
+                "A. tidak menunjukkan secara spesifik hubungan ketergantungan",
+                "B. sukar mengadakan perbaikan",
+                "C. disusun baris demi baris dari atas ke bawah",
+                "D. mudah dibaca dan dipahami"
+            ],
+            correct: 2,
+            explanation: "Keunggulan bagan: disusun baris demi baris (kunci: 3)"
+        }, {
+            id: 15,
+            question: "Salah satu manfaat utama dari penjaminan mutu proyek adalah...",
+            options: [
+                "A. Dapat menghemat biaya produksi",
+                "B. Menjamin diperolehnya SDM yang dibutuhkan",
+                "C. Hubungan dengan stakeholder berlangsung baik",
+                "D. Inovasi berkelanjutan lebih terjamin"
+            ],
+            correct: 0,
+            explanation: "Penjaminan mutu dapat menghemat biaya produksi (kunci: A)"
+        }, {
+            id: 16,
+            question: "Proses dari memonitor, mengevaluasi, dan membandingkan hasil yang direncanakan dengan hasil yang sesungguhnya untuk mengetahui kemajuan proyek dikenal dengan istilah...",
+            options: [
+                "A. Perencanaan proyek",
+                "B. Pengendalian proyek",
+                "C. Pengerahan proyek",
+                "D. Pengorganisasian proyek"
+            ],
+            correct: 1,
+            explanation: "Pengendalian proyek adalah proses tersebut."
+        }, {
+            id: 17,
+            question: "Semua biaya yang dikeluarkan sebagai sistem siap untuk dioperasionalkan merupakan definisi dari...",
+            options: [
+                "A. Procurement cost",
+                "B. Start up cost",
+                "C. Project related cost",
+                "D. On going cost"
+            ],
+            correct: 1,
+            explanation: "Start up cost adalah biaya persiapan operasional."
+        }, {
+            id: 18,
+            question: "Dalam proses mengorganisasikan proyek, urutan kegiatan setelah melakukan identifikasi dan klasifikasi adalah kegiatan...",
+            options: [
+                "A. Menyusun mekanisme koordinasi",
+                "B. Mengelompokkan pekerjaan",
+                "C. Menyiapkan pihak yang akan menangani pekerjaan",
+                "D. Membagi wewenang dan tanggung jawab"
+            ],
+            correct: 3,
+            explanation: "Setelah identifikasi & klasifikasi, dilanjutkan dengan pembagian wewenang dan tanggung jawab."
+        }, {
+            id: 19,
+            question: "Berikut adalah tipe bantuan dalam proyek diantaranya...",
+            options: [
+                "A. subsidi inti",
+                "B. subsidi proyek",
+                "C. tender",
+                "D. A dan B benar"
+            ],
+            correct: 3,
+            explanation: "Subsidi inti & subsidi proyek (kunci: 1 & 2)"
+        }, {
+            id: 20,
+            question: "Karakteristik umum dari sistem manajemen kualitas adalah...",
+            options: [
+                "A. mencakup aktivitas dalam organisasi modern",
+                "B. berfokus pada konsistensi dari proses kerja",
+                "C. pencegahan kesalahan bersifat proaktif",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua karakteristik benar (kunci: 1,2,3)"
+        }, {
+            id: 21,
+            question: "Lingkup penjaminan mutu proyek adalah atau sesuai urutan...",
+            options: [
+                "A. Perencanaan mutu → Penjaminan mutu → Pengendalian mutu",
+                "B. Perumusan sasaran → Implementasi → Evaluasi mutu",
+                "C. Diagnosis → Pengembangan sasaran → Evaluasi mutu",
+                "D. Evaluasi tahun sebelumnya → Revisi → Strategi → Implementasi"
+            ],
+            correct: 0,
+            explanation: "Urutan standar: perencanaan, penjaminan, pengendalian mutu."
+        }, {
+            id: 22,
+            question: "Evaluasi sumatif adalah jenis penilaian hasil-hasil yang telah dicapai secara keseluruhan dari...",
+            options: [
+                "A. Awal kegiatan sampai akhir kegiatan",
+                "B. Akhir proyek sesuai jangka waktu",
+                "C. Pertengahan proses pekerjaan",
+                "D. Pertengahan sampai akhir kegiatan"
+            ],
+            correct: 0,
+            explanation: "Evaluasi sumatif mencakup awal sampai akhir proyek."
+        }, {
+            id: 23,
+            question: "Tujuan investor melakukan studi kelayakan sebelum berinvestasi adalah untuk...",
+            options: [
+                "A. Memperoleh laba yang besar",
+                "B. Mempererat hubungan dengan pemerintah",
+                "C. Menjamin keamanan investasi",
+                "D. Memperoleh sumber daya yang murah"
+            ],
+            correct: 2,
+            explanation: "Menjamin keamanan investasi (kunci: C)"
+        }, {
+            id: 24,
+            question: "Fungsi pemimpin dalam organisasi di mana pemimpin berupaya menyelaraskan keseluruhan sistem agar mampu bekerja sama dan saling sinergis merupakan fungsi pemimpin organisasi proyek sebagai...",
+            options: [
+                "A. Perintis",
+                "B. Penyelaras",
+                "C. Pemberdayaan",
+                "D. Panutan"
+            ],
+            correct: 1,
+            explanation: "Fungsi penyelaras (kunci: B)"
+        }, {
+            id: 25,
+            question: "Kegunaan penjaminan mutu bagi pemilik proyek adalah...",
+            options: [
+                "A. Menyediakan data hasil inspeksi",
+                "B. Memberikan kepercayaan bahwa metode, material, peralatan sesuai regulasi",
+                "C. Menjadi umpan balik desain engineering di masa depan",
+                "D. Mencegah pengulangan pekerjaan"
+            ],
+            correct: 1,
+            explanation: "Memberikan kepercayaan terhadap kesesuaian regulasi (kunci: B)"
+        }, {
+            id: 26,
+            question: "Salah satu upaya mencapai dan memelihara kualitas dalam proyek diwujudkan melalui...",
+            options: [
+                "A. Audit keuangan",
+                "B. Manajemen by objective",
+                "C. Manajemen by performance",
+                "D. Six Sigma"
+            ],
+            correct: 3,
+            explanation: "Six Sigma adalah upaya pemeliharaan kualitas."
+        }, {
+            id: 27,
+            question: "Tugas manajemen misi proyek berkaitan dengan proses...",
+            options: [
+                "A. Pemantauan dan manajemen aliran sumber daya",
+                "B. Menyelesaikan proyek tepat waktu, biaya terbatas, mutu memadai",
+                "C. Mengolah sumber daya operasi sehari-hari",
+                "D. Perencanaan dan pengorganisasian proyek"
+            ],
+            correct: 1,
+            explanation: "Misi proyek: selesai tepat waktu, biaya terbatas, mutu memadai."
+        }, {
+            id: 28,
+            question: "Salah satu manfaat penerapan sistem manajemen mutu adalah...",
+            options: [
+                "A. Kualitas produk dijamin bagus",
+                "B. Harga produk dapat dikendalikan",
+                "C. Kepercayaan dan kepuasan pelanggan meningkat",
+                "D. Memudahkan penggantian manajer"
+            ],
+            correct: 2,
+            explanation: "Meningkatkan kepercayaan & kepuasan pelanggan (kunci: C)"
+        }, {
+            id: 29,
+            question: "Jika pimpinan proyek membagi tugas dengan mempertimbangkan kapasitas mandor/supervisor, maka menerapkan asas...",
+            options: [
+                "A. Hierarki",
+                "B. Kesatuan komando",
+                "C. Koordinasi",
+                "D. Rentang kendali"
+            ],
+            correct: 3,
+            explanation: "Rentang kendali mempertimbangkan kapasitas bawahan."
+        }, {
+            id: 30,
+            question: "Pernyataan yang tidak relevan dengan cara menentukan jumlah working capital adalah...",
+            options: [
+                "A. sesuai dengan jumlah pengeluaran kas setiap hari × periode perputaran",
+                "B. sesuai dengan jumlah aktiva yang dimiliki perusahaan",
+                "C. sesuai dengan jumlah dana investasi yang dibutuhkan dalam 5 tahun",
+                "D. B dan C tidak relevan"
+            ],
+            correct: 3,
+            explanation: "Working capital tidak ditentukan oleh aktiva atau investasi 5 tahun (kunci: 2 & 3 tidak relevan)"
+        }, {
+            id: 31,
+            question: "Tipe bantuan subsidi inti bagi pendanaan proyek-proyek publik digunakan untuk membiayai...",
+            options: [
+                "A. Biaya operasional",
+                "B. Pemanfaatan kegiatan yang terdeskripsi dengan baik",
+                "C. Studi kelayakan proyek",
+                "D. Analisa dampak proyek"
+            ],
+            correct: 1,
+            explanation: "Subsidi inti untuk kegiatan yang terdeskripsi dengan baik."
+        }, {
+            id: 32,
+            question: "Keunggulan struktur fungsional adalah...",
+            options: [
+                "A. Kurangnya jalur komunikasi horizontal",
+                "B. Semakin besar organisasi semakin rumit keputusan",
+                "C. Sulit melakukan koordinasi",
+                "D. Menangani kegiatan yang dapat diantisipasi/diklasifikasi"
+            ],
+            correct: 3,
+            explanation: "Struktur fungsional baik untuk kegiatan yang dapat diklasifikasi."
+        }, {
+            id: 33,
+            question: "Kebijakan untuk pengendalian kualitas ditentukan oleh...",
+            options: [
+                "A. efektivitas",
+                "B. kebijakan organisasi",
+                "C. kebutuhan kontrak kinerja",
+                "D. B dan C benar"
+            ],
+            correct: 3,
+            explanation: "Kebijakan organisasi & kebutuhan kontrak (kunci: 2 & 3)"
+        }, {
+            id: 34,
+            question: "Dalam siklus hidup manajemen proyek, kegiatan yang dilakukan pada tahap konsep, antara lain...",
+            options: [
+                "A. Demonstrasi dan validasi",
+                "B. Menguji alternatif yang dikembangkan",
+                "C. Pengembangan alternatif pendekatan untuk memenuhi kebutuhan",
+                "D. Pembagian alternatif skala"
+            ],
+            correct: 2,
+            explanation: "Tahap konsep: pengembangan alternatif pendekatan."
+        }, {
+            id: 35,
+            question: "Penelaahan meliputi kecukupan tenaga ahli dalam melaksanakan proyek termasuk dalam evaluasi...",
+            options: [
+                "A. Organisasi",
+                "B. Manajemen",
+                "C. Teknis",
+                "D. Pemasaran"
+            ],
+            correct: 0,
+            explanation: "Kecukupan tenaga ahli termasuk evaluasi organisasi."
+        }, {
+            id: 36,
+            question: "Kategori yang bukan menjadi biaya kualitas adalah...",
+            options: [
+                "A. Pencegahan",
+                "B. Appraisal",
+                "C. Failure",
+                "D. Manfaat"
+            ],
+            correct: 3,
+            explanation: "Manfaat bukan biaya kualitas."
+        }, {
+            id: 37,
+            question: "Pengaruh lingkungan eksternal terhadap pengambilan keputusan dalam manajemen proyek adalah...",
+            options: [
+                "A. ketersediaan bahan baku",
+                "B. globalisasi",
+                "C. kebutuhan inovasi dan fleksibilitas",
+                "D. B dan C benar"
+            ],
+            correct: 3,
+            explanation: "Globalisasi & kebutuhan inovasi (kunci: 2 & 3)"
+        }, {
+            id: 38,
+            question: "Dalam pengendalian dan evaluasi proyek, kegiatan membandingkan standar kerja dengan data kinerja di lapangan adalah untuk...",
+            options: [
+                "A. Menghitung penyimpangan keuangan",
+                "B. Menghitung capaian kinerja individu",
+                "C. Mengetahui efektivitas pencapaian sasaran",
+                "D. Merevisi kontrak kerja"
+            ],
+            correct: 2,
+            explanation: "Membandingkan untuk mengetahui efektivitas pencapaian sasaran."
+        }, {
+            id: 39,
+            question: "Kajian mengenai dampak besar dan penting suatu usaha atau kegiatan yang direncanakan pada lingkungan hidup yang diperlukan bagi proses pengambilan keputusan disebut...",
+            options: [
+                "A. Analisis dampak lingkungan",
+                "B. Uji dampak lingkungan",
+                "C. Kajian dampak lingkungan",
+                "D. Studi dampak lingkungan"
+            ],
+            correct: 3,
+            explanation: "Studi dampak lingkungan (AMDAL)."
+        }, {
+            id: 40,
+            question: "Aktivitas yang bukan konsep manajemen proyek adalah...",
+            options: [
+                "A. Menggunakan prinsip manajemen dengan dukungan SDM",
+                "B. Mencapai tujuan jangka panjang yang telah digariskan",
+                "C. Menggunakan pendekatan sistem",
+                "D. Memiliki arus kegiatan secara vertikal dan horizontal"
+            ],
+            correct: 1,
+            explanation: "Tujuan jangka panjang lebih ke manajemen strategis, bukan proyek."
+        }, {
+            id: 41,
+            question: "Yang dimaksud dengan manajemen adalah...",
+            options: [
+                "A. Tatanan dan proses dalam organisasi",
+                "B. Kegiatan oleh dua orang atau lebih dengan prinsip manajemen",
+                "C. Struktur hubungan wewenang formal",
+                "D. Kegiatan memberi bantuan dalam mengelola informasi"
+            ],
+            correct: 1,
+            explanation: "Manajemen adalah kegiatan bersama dengan prinsip manajemen (kunci: B)"
+        }, {
+            id: 42,
+            question: "Eksternalitas dapat terjadi dari interaksi sebagai berikut...",
+            options: [
+                "A. dampak produsen terhadap produsen lain",
+                "B. efek samping produsen terhadap konsumen",
+                "C. dampak konsumen terhadap konsumen lain",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua interaksi tersebut menghasilkan eksternalitas (kunci: 1,2,3)"
+        }, {
+            id: 43,
+            question: "Proyek berbeda dengan kegiatan operasional. Salah satu ciri pekerjaan proyek adalah...",
+            options: [
+                "A. Proyek memperoleh dana rutin dari APBN",
+                "B. Proyek hanya berlangsung sementara, setelah selesai manajemennya bubar",
+                "C. Manajemen proyek menjadi bagian tidak terpisahkan dengan departemen",
+                "D. Segala sumber daya dipenuhi pemberi proyek"
+            ],
+            correct: 1,
+            explanation: "Proyek bersifat sementara dan manajemennya bubar setelah selesai."
+        }, {
+            id: 44,
+            question: "Dasar untuk melakukan kegiatan pengawasan adalah kegiatan...",
+            options: [
+                "A. Koordinasi yang akan dilakukan",
+                "B. Pengorganisasian yang telah dilakukan",
+                "C. Pengarahan yang akan dilakukan",
+                "D. Perencanaan yang telah disusun"
+            ],
+            correct: 3,
+            explanation: "Pengawasan didasarkan pada perencanaan yang telah disusun."
+        }, {
+            id: 45,
+            question: "Pemerintah provinsi menjadi pihak yang berwenang untuk melakukan pengawasan ketat pelaksanaan proyek setelah...",
+            options: [
+                "A. Diterbitkannya izin proyek dan AMDAL telah dilakukan",
+                "B. Diajukan izin pelaksanaan proyek",
+                "C. Rencana AMDAL diajukan",
+                "D. Melakukan penapisan staf proyek"
+            ],
+            correct: 0,
+            explanation: "Setelah izin proyek dan AMDAL disetujui (kunci: A)"
+        }, {
+            id: 46,
+            question: "Perbandingan antara nilai sekarang dari aliran kas masuk di masa yang akan datang dengan nilai investasi disebut...",
+            options: [
+                "A. Internal rate of return",
+                "B. Average rate of return",
+                "C. Net present value",
+                "D. Profitability index"
+            ],
+            correct: 2,
+            explanation: "Net Present Value (NPV) adalah perbandingan nilai sekarang kas masuk dengan investasi."
+        }, {
+            id: 47,
+            question: "Faktor produksi yang tidak digunakan dalam melakukan evaluasi proyek adalah...",
+            options: [
+                "A. Waktu proyek",
+                "B. Keperluan energi",
+                "C. Aplikasi teknologi",
+                "D. Pasar potensial"
+            ],
+            correct: 0,
+            explanation: "Waktu proyek bukan faktor produksi utama dalam evaluasi."
+        }, {
+            id: 48,
+            question: "Dari segi perencanaan kualitas proyek, kegiatan yang perlu dilakukan oleh pemrakarsa dan pimpinan proyek untuk mencapai tujuan adalah...",
+            options: [
+                "A. Membuat rencana perbaikan kualitas, strategi dan rumusan",
+                "B. Membentuk tim kerja lintas fungsional",
+                "C. Membentuk tim kerja kualitas mandiri",
+                "D. Mencegah kecacatan dan pendeteksian masalah"
+            ],
+            correct: 3,
+            explanation: "Mencegah defect dan mendeteksi masalah (kunci: D)"
+        }, {
+            id: 49,
+            question: "Tolak ukur mutu yang menitikberatkan bahwa produk atau jasa yang dihasilkan harus sesuai dengan standar desain adalah mutu...",
+            options: [
+                "A. Kesesuaian",
+                "B. Penggunaan",
+                "C. Desain",
+                "D. Bahan"
+            ],
+            correct: 0,
+            explanation: "Kesesuaian (conformance) terhadap standar desain."
+        }, {
+            id: 50,
+            question: "Aspek yang tidak dinilai dalam studi kelayakan adalah...",
+            options: [
+                "A. Hukum",
+                "B. Sosial ekonomi dan budaya",
+                "C. Teknis dan teknologi",
+                "D. Lingkungan"
+            ],
+            correct: 3,
+            explanation: "Lingkungan sebenarnya dinilai, tetapi dalam konteks ini dianggap tidak dinilai (kunci: D)"
+        }, {
+            id: 51,
+            question: "Yang dimaksud dengan penjaminan mutu adalah...",
+            options: [
+                "A. Aktivitas sistematis dan terencana dengan sistem kualitas untuk memastikan barang/jasa sesuai standar",
+                "B. Aktivitas perencanaan proyek dengan metode tertentu",
+                "C. Aktivitas pelaksanaan proyek dengan metode tertentu",
+                "D. Aktivitas perumusan proyek dengan metode tertentu"
+            ],
+            correct: 0,
+            explanation: "Definisi penjaminan mutu (kunci: A)"
+        }, {
+            id: 52,
+            question: "Dalam Network diagram hal penting yang harus diperhatikan adalah jalur kritis. Untuk menjaga efisiensi akibat adanya jalur kritis perusahaan dapat melakukan...",
+            options: [
+                "A. Menghilangkan jalur kritis dengan menambah pekerjaan pada jalur lain",
+                "B. Merevisi kontrak dengan merevisi alur pekerjaan",
+                "C. Tenaga kerja yang menganggur akibat jalur kritis diminta mengerjakan pekerjaan lain",
+                "D. Proyek berjalan seperti biasa"
+            ],
+            correct: 2,
+            explanation: "Memindahkan tenaga kerja untuk memanfaatkan waktu (crashing)."
+        }, {
+            id: 53,
+            question: "Jika organisasi proyek penghasil mesin-mesin struktur organisasi berdasarkan orientasi produk, maka struktur organisasi yang dimaksud adalah...",
+            options: [
+                "A. Fungsional",
+                "B. Matrik",
+                "C. Produk dan area",
+                "D. Proyek murni"
+            ],
+            correct: 2,
+            explanation: "Struktur produk dan area berdasarkan orientasi produk."
+        }, {
+            id: 54,
+            question: "Faktor kontingensi dalam perencanaan proyek adalah...",
+            options: [
+                "A. modal",
+                "B. tingkat manajemen dalam organisasi",
+                "C. ketidakpastian lingkungan",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua faktor kontingensi (kunci: 1,2,3)"
+        }, {
+            id: 55,
+            question: "Cara-cara dalam melakukan tindakan koreksi adalah dengan melakukan...",
+            options: [
+                "A. perencanaan kembali",
+                "B. pemrograman kembali",
+                "C. alokasi sumber daya kembali",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua cara tindakan koreksi (kunci: 1,2,3)"
+        }, {
+            id: 56,
+            question: "Jenis evaluasi proyek yang dilakukan sebelum proyek berjalan guna menyeleksi proyek yang sesuai dengan tujuan organisasi dikenal dengan istilah...",
+            options: [
+                "A. Pre-Project Evolution",
+                "B. On-going Project Evolution",
+                "C. Completion Project evaluation",
+                "D. Post-Project Evolution"
+            ],
+            correct: 0,
+            explanation: "Pre-Project Evaluation dilakukan sebelum proyek berjalan."
+        }, {
+            id: 57,
+            question: "Contoh peramalan kuantitatif antara lain...",
+            options: [
+                "A. Analisis rangkaian waktu",
+                "B. Evaluasi pengguna",
+                "C. Komposisi hasil proyek",
+                "D. Opini pakar"
+            ],
+            correct: 0,
+            explanation: "Analisis rangkaian waktu adalah peramalan kuantitatif."
+        }, {
+            id: 58,
+            question: "Waktu mulai dini (early stage) dari pekerjaan C ke E adalah pada hari... (lihat gambar)",
+            options: [
+                "A. 15 hari",
+                "B. 25 hari",
+                "C. 40 hari",
+                "D. 50 hari"
+            ],
+            correct: 1,
+            explanation: "Berdasarkan diagram, early start C→E = 25 hari."
+        }, {
+            id: 59,
+            question: "Bentuk penjadwalan proyek yang berisi urutan-urutan pekerjaan beserta waktu disusun baris demi baris dari atas ke bawah adalah bentuk...",
+            options: [
+                "A. Bagan",
+                "B. Diagram",
+                "C. Jaringan",
+                "D. Tabel"
+            ],
+            correct: 0,
+            explanation: "Bagan (bar chart) disusun baris demi baris."
+        }, {
+            id: 60,
+            question: "Anggota tim proyek yang terlibat dalam penyiapan proposal, negosiasi kontrak, mengintegrasikan keperluan kontrak dengan rencana proyek yaitu...",
+            options: [
+                "A. Project accountant",
+                "B. Kontraktor administrator",
+                "C. Customer liaison",
+                "D. Production coordinator"
+            ],
+            correct: 1,
+            explanation: "Kontraktor administrator (kunci: B)"
+        }, {
+            id: 61,
+            question: "Langkah-langkah dalam siklus pengendalian proyek adalah...",
+            options: [
+                "A. peramalan masa depan",
+                "B. mengukur pelaksanaan dengan standar kinerja",
+                "C. pengamatan kinerja",
+                "D. B dan C benar"
+            ],
+            correct: 3,
+            explanation: "Mengukur & pengamatan kinerja (kunci: 2 & 3)"
+        }, {
+            id: 62,
+            question: "Jenis-jenis komponen biaya dalam cost and benefit analisis...",
+            options: [
+                "A. start down cost",
+                "B. procurement cost",
+                "C. project related cost",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua komponen biaya (kunci: 1,2,3)"
+        }, {
+            id: 63,
+            question: "Tim inti proyek adalah...",
+            options: [
+                "A. Para pemegang saham",
+                "B. Tim di kantor pusat yang menangani perencanaan, jadwal, anggaran",
+                "C. Tim pelaksana konstruksi",
+                "D. Para ahli pengawas"
+            ],
+            correct: 1,
+            explanation: "Tim inti di kantor pusat (perencanaan, jadwal, anggaran)."
+        }, {
+            id: 64,
+            question: "Tipe bantuan dalam proyek adalah...",
+            options: [
+                "A. subsidi inti",
+                "B. subsidi proyek",
+                "C. tender",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua tipe bantuan (kunci: 1,2,3)"
+        }, {
+            id: 65,
+            question: "Dengan memperhatikan perencanaan kerja di bawah jika anda diminta untuk mengoptimalkan waktu menyelesaikan pekerjaan maka jalur yang paling efektif untuk Anda percepat adalah jalur... (lihat gambar)",
+            options: [
+                "A. A ke B",
+                "B. C ke F",
+                "C. D ke E",
+                "D. G ke H"
+            ],
+            correct: 1,
+            explanation: "Jalur kritis C→F perlu dipercepat."
+        }, {
+            id: 66,
+            question: "Sertifikasi ISO 9001:2000 umumnya hanya berlaku selama...",
+            options: [
+                "A. 4 tahun",
+                "B. 3 tahun",
+                "C. 2 tahun",
+                "D. 1 tahun"
+            ],
+            correct: 1,
+            explanation: "ISO 9001 berlaku 3 tahun."
+        }, {
+            id: 67,
+            question: "Salah satu tujuan melakukan spesifik evaluasi proyek adalah untuk...",
+            options: [
+                "A. Mencari kesalahan manajer proyek",
+                "B. Menunjukkan kepada pemerintah kualitas proyek",
+                "C. Mencegah kerugian atau pemborosan sumber daya lebih lanjut",
+                "D. Menarik investasi dari luar negeri"
+            ],
+            correct: 2,
+            explanation: "Mencegah kerugian/pemborosan (kunci: C)"
+        }, {
+            id: 68,
+            question: "Manfaat studi kelayakan bagi pemerintah adalah...",
+            options: [
+                "A. Memperhatikan prospek usaha keuntungan",
+                "B. Memperhatikan keamanan dana yang dipinjamkan",
+                "C. Memperhatikan manfaat proyek bagi perekonomian nasional",
+                "D. Memperhatikan risiko investasi"
+            ],
+            correct: 2,
+            explanation: "Manfaat bagi perekonomian nasional (kunci: C)"
+        }, {
+            id: 69,
+            question: "Peran pemimpin tim proyek menurut Robbins dan Coulter adalah...",
+            options: [
+                "A. pendiri organisasi",
+                "B. penghubung dengan pihak luar",
+                "C. pengelola konflik",
+                "D. B dan C benar"
+            ],
+            correct: 3,
+            explanation: "Penghubung & pengelola konflik (kunci: 2 & 3)"
+        }, {
+            id: 70,
+            question: "Jika ingin diterapkan pada industri manufaktur, manfaat penjamin manajemen mutu bagi pemilikan proyek kreator pencuci limbah dengan teknik bioremediasi adalah...",
+            options: [
+                "A. Menyediakan dokumen bagi pihak pemerintah",
+                "B. Mengikuti prosedur dan spesifikasi dengan tepat sehingga mencegah rework",
+                "C. Menjaga dan meyakinkan metode, material, peralatan sesuai standar",
+                "D. Menjadi umpan balik desain engineering"
+            ],
+            correct: 1,
+            explanation: "Mengikuti prosedur untuk mencegah pekerjaan ulang (kunci: B)"
+        }, {
+            id: 71,
+            question: "Berikut merupakan ciri yang membedakan user-Based approach dengan konsep pendekatan kualitas lainnya...",
+            options: [
+                "A. kualitas tergantung pada orang yang memandangnya",
+                "B. kualitas merupakan karakteristik yang dapat diukur",
+                "C. produk yang paling memuaskan referensi seseorang",
+                "D. A dan C benar"
+            ],
+            correct: 0,
+            explanation: "User-based: kualitas tergantung pada orang yang memandang (kunci: 1)"
+        }, {
+            id: 72,
+            question: "Ciri pimpinan proyek dengan gaya laissez-faire adalah...",
+            options: [
+                "A. memberikan kebebasan kepada kelompok kerja",
+                "B. kelompok kerja dibebaskan membuat keputusan",
+                "C. memiliki kewenangan terpusat",
+                "D. A dan B benar"
+            ],
+            correct: 3,
+            explanation: "Laissez-faire: kebebasan & dibebaskan mengambil keputusan (kunci: 1 & 2)"
+        }, {
+            id: 73,
+            question: "Kegagalan suatu proyek disebabkan oleh beberapa faktor diantaranya...",
+            options: [
+                "A. kesalahan perencanaan",
+                "B. keterlambatan membayar pajak",
+                "C. kesalahan menaksir pasar",
+                "D. A dan C benar"
+            ],
+            correct: 3,
+            explanation: "Kesalahan perencanaan & taksiran pasar (kunci: 1 & 3)"
+        }, {
+            id: 74,
+            question: "Elemen dalam rantai komando adalah...",
+            options: [
+                "A. wewenang",
+                "B. tanggung jawab",
+                "C. departementalisasi",
+                "D. A dan B benar"
+            ],
+            correct: 3,
+            explanation: "Wewenang & tanggung jawab (kunci: 1 & 2)"
+        }, {
+            id: 75,
+            question: "Salah satu jenis aktiva tak berwujud (intangible assets) dalam investasi proyek adalah...",
+            options: [
+                "A. Biaya perekrutan",
+                "B. Tanah bangunan",
+                "C. Working capital",
+                "D. Pabrik"
+            ],
+            correct: 0,
+            explanation: "Biaya perekrutan adalah intangible asset."
+        }, {
+            id: 76,
+            question: "Tipe bantuan bagi pendanaan proyek yang dibatasi dalam waktu tertentu dan hanya diperuntukkan bagi pemanfaatan kegiatan yang terdeskripsi dengan baik merupakan tipe bantuan...",
+            options: [
+                "A. Dana fleksibel",
+                "B. Subsidi inti",
+                "C. Subsidi proyek",
+                "D. Tender"
+            ],
+            correct: 2,
+            explanation: "Subsidi proyek (kunci: C)"
+        }, {
+            id: 77,
+            question: "Jika organisasi proyek reboisasi hutan merancang struktur di mana pimpinan proyek berfungsi seperti manajer lini dan tenaga pelaksana dipindahkan ke proyek, maka bentuk organisasinya adalah...",
+            options: [
+                "A. Fungsional",
+                "B. Matrik",
+                "C. Produk dan area",
+                "D. Proyek murni"
+            ],
+            correct: 3,
+            explanation: "Proyek murni (kunci: D)"
+        }, {
+            id: 78,
+            question: "Organisasi yang memiliki jangkauan luas dan ingin memfokuskan pada produk barang atau jasa tertentu serta memberikan otonomi kepada setiap fokus produksi, model organisasi yang cocok adalah...",
+            options: [
+                "A. Fungsional",
+                "B. Matriks",
+                "C. Produk dan area",
+                "D. Jaringan/hybrid"
+            ],
+            correct: 2,
+            explanation: "Struktur produk dan area (kunci: C)"
+        }, {
+            id: 79,
+            question: "Salah satu ukuran kompleksitas proyek adalah...",
+            options: [
+                "A. Aspek politik pengadaan",
+                "B. Jumlah ancaman kegiatan dalam proyek",
+                "C. Kepemimpinan proyek",
+                "D. Teknologi bahan dan alat"
+            ],
+            correct: 1,
+            explanation: "Jumlah ancaman kegiatan (kunci: B)"
+        }, {
+            id: 80,
+            question: "Penelaahan meliputi kelayakan proyek secara teknis dan engineering termasuk dalam evaluasi...",
+            options: [
+                "A. Organisasi",
+                "B. Manajemen",
+                "C. Teknis",
+                "D. Pemasaran"
+            ],
+            correct: 2,
+            explanation: "Evaluasi teknis (kunci: C)"
+        }, {
+            id: 81,
+            question: "Maksud pengendalian biaya yang bukan untuk memastikan penggunaan dana adalah...",
+            options: [
+                "A. Biaya dialokasikan dengan tepat",
+                "B. Pembayaran kontraktor",
+                "C. Sumber-sumber dana bantuan disetujui",
+                "D. Biaya diamankan untuk pelaksanaan kegiatan"
+            ],
+            correct: 1,
+            explanation: "Pembayaran kontraktor bukan inti pengendalian biaya (kunci: B)"
+        }, {
+            id: 82,
+            question: "Prinsip-prinsip manajemen proyek adalah sebagai berikut...",
+            options: [
+                "A. menggambarkan fokus suatu proyek",
+                "B. penghargaan terhadap kegiatan produksi",
+                "C. mengikuti perubahan teknologi",
+                "D. A dan C benar"
+            ],
+            correct: 3,
+            explanation: "Fokus proyek & mengikuti perubahan teknologi (kunci: 1 & 3)"
+        }, {
+            id: 83,
+            question: "Salah satu perangkat pengelolaan lingkungan ISO 14000 adalah...",
+            options: [
+                "A. Sistem manajemen terpadu",
+                "B. Pengelolaan di wilayah hutan lindung",
+                "C. Audit internal",
+                "D. Evaluasi kinerja lingkungan"
+            ],
+            correct: 3,
+            explanation: "Evaluasi kinerja lingkungan (kunci: D)"
+        }, {
+            id: 84,
+            question: "Pihak yang terlibat dalam proses AMDAL adalah...",
+            options: [
+                "A. komisi penilai AMDAL",
+                "B. pemrakarsa",
+                "C. masyarakat yang berkepentingan",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua pihak terlibat (kunci: 1,2,3)"
+        }, {
+            id: 85,
+            question: "Menurut filosofi manajemen proyek, perencanaan dan pengendalian merupakan teknik utama untuk mencapai tujuan dengan melengkapi tugas-tugas yang terpisah. Teknik tersebut dilaksanakan melalui...",
+            options: [
+                "A. Jaringan kerja",
+                "B. Kesepakatan informal",
+                "C. Organisasi padat modal",
+                "D. Organisasi informal"
+            ],
+            correct: 0,
+            explanation: "Jaringan kerja (network) (kunci: A)"
+        }, {
+            id: 86,
+            question: "Alasan yang mendasari mengapa manajemen sangat penting adalah...",
+            options: [
+                "A. Manajemen dasar dari budaya organisasi",
+                "B. Manajemen merupakan alat untuk mencapai tujuan",
+                "C. Manajemen menentukan tujuan yang ingin dicapai",
+                "D. Manajemen merupakan bagian dari kepemimpinan"
+            ],
+            correct: 1,
+            explanation: "Manajemen adalah alat untuk mencapai tujuan (kunci: B)"
+        }, {
+            id: 87,
+            question: "Eksternalitas dapat terjadi dari interaksi sebagai berikut...",
+            options: [
+                "A. dampak produsen terhadap produsen lain",
+                "B. efek samping produsen terhadap konsumen",
+                "C. dampak konsumen terhadap konsumen lain",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua interaksi (kunci: 1,2,3)"
+        }, {
+            id: 88,
+            question: "Rangkaian kegiatan yang bersifat khusus untuk mencapai hasil yang bersifat khusus disebut...",
+            options: [
+                "A. Program",
+                "B. Pembangunan",
+                "C. Proyek",
+                "D. Perencanaan"
+            ],
+            correct: 2,
+            explanation: "Proyek (kunci: C)"
+        }, {
+            id: 89,
+            question: "Wewenang manajemen puncak adalah...",
+            options: [
+                "A. bertanggung jawab atas keseluruhan aktivitas organisasi",
+                "B. memonitor pekerjaan manajemen tingkat bawah",
+                "C. menetapkan tujuan yang berdampak luas pada organisasi",
+                "D. A dan C benar"
+            ],
+            correct: 3,
+            explanation: "Tanggung jawab keseluruhan & menetapkan tujuan luas (kunci: 1 & 3)"
+        }, {
+            id: 90,
+            question: "Suatu kegiatan proyek dapat diizinkan atau dilakukan, jika telah memperoleh persetujuan kajian AMDAL yang disetujui oleh pihak...",
+            options: [
+                "A. Kementerian lingkungan hidup",
+                "B. Konsultan lingkungan",
+                "C. Masyarakat",
+                "D. Peneliti akademik"
+            ],
+            correct: 0,
+            explanation: "Kementerian Lingkungan Hidup (kunci: A)"
+        }, {
+            id: 91,
+            question: "Dalam metode pemilihan proyek, kriteria perbandingan antara nilai sekarang dari aliran kas masuk masa yang akan datang dengan nilai investasi, merupakan...",
+            options: [
+                "A. Internal rate of return",
+                "B. Average rate of return",
+                "C. Profitability index",
+                "D. Net present value"
+            ],
+            correct: 2,
+            explanation: "Profitability Index (kunci: C)"
+        }, {
+            id: 92,
+            question: "Pada tahap studi kelayakan, tindakan yang perlu Anda lakukan adalah...",
+            options: [
+                "A. Menyusun perencanaan proyek",
+                "B. Mengumpulkan dan menganalisis data",
+                "C. Melakukan presentasi proyek",
+                "D. Menilai kelayakan proposal"
+            ],
+            correct: 1,
+            explanation: "Mengumpulkan dan menganalisis data (kunci: B)"
+        }, {
+            id: 93,
+            question: "Upaya yang dapat dilakukan dalam menjamin kualitas proyek adalah...",
+            options: [
+                "A. dari sisi perencanaan, membuat rencana perbaikan kualitas",
+                "B. dari sisi anggaran, membuat penghematan",
+                "C. dari sisi pengorganisasian, menggunakan teknik penggerakan kualitas",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua upaya (kunci: 1,2,3)"
+        }, {
+            id: 94,
+            question: "Salah satu parameter mutu adalah...",
+            options: [
+                "A. Mutu desain",
+                "B. Mutu produksi",
+                "C. Mutu kepemimpinan",
+                "D. Mutu sosio-politis"
+            ],
+            correct: 0,
+            explanation: "Mutu desain (kunci: A)"
+        }, {
+            id: 95,
+            question: "Studi kelayakan hasilnya digunakan untuk mengambil keputusan apakah suatu proyek atau bisnis dapat dikerjakan atau ditunda atau tidak dijalankan sama sekali adalah aspek...",
+            options: [
+                "A. Sosial budaya",
+                "B. Ideologi",
+                "C. Keamanan",
+                "D. Politik"
+            ],
+            correct: 3,
+            explanation: "Aspek politik (kunci: D)"
+        }, {
+            id: 96,
+            question: "Penjaminan kualitas didasari oleh pemikiran bahwa dengan penjaminan kualitas organisasi akan dapat mengerjakan segala sesuatu dengan baik sejak...",
+            options: [
+                "A. Awal dan setiap waktu (do it right the first time and every time)",
+                "B. Akhir pelaksanaan kerja",
+                "C. Jalur kritis diketahui",
+                "D. Saat puncak pelaksanaan"
+            ],
+            correct: 0,
+            explanation: "Do it right the first time (kunci: A)"
+        }, {
+            id: 97,
+            question: "Menurut Juran, salah satu dimensi kualitas yang mencakup aspek dapat dipercaya, ketahanan, serta kemudahan akses bagi konsumen, adalah dimensi...",
+            options: [
+                "A. Rancangan (design)",
+                "B. Kesesuaian (conformance)",
+                "C. Ketersediaan (availability)",
+                "D. Keamanan (safety)"
+            ],
+            correct: 2,
+            explanation: "Ketersediaan (availability) (kunci: C)"
+        }, {
+            id: 98,
+            question: "Ciri dari organisasi produk dan area adalah...",
+            options: [
+                "A. perusahaan memiliki beragam jenis produk",
+                "B. pembagian kerja berorientasi pada produk dan bersifat otonomi",
+                "C. pembagian kerja berdasarkan fungsi-fungsi manajemen",
+                "D. A dan B benar"
+            ],
+            correct: 3,
+            explanation: "Beragam produk & orientasi produk (kunci: 1 & 2)"
+        }, {
+            id: 99,
+            question: "Pernyataan yang menjelaskan hubungan antara perencanaan proyek dengan kinerja proyek adalah...",
+            options: [
+                "A. perencanaan tidak selalu berpengaruh pada kinerja",
+                "B. perencanaan yang baik akan menghasilkan profit yang lebih besar",
+                "C. perencanaan yang baik akan menghasilkan kinerja yang baik pula",
+                "D. semua benar"
+            ],
+            correct: 2,
+            explanation: "Perencanaan baik → kinerja baik (kunci: 3)"
+        }, {
+            id: 100,
+            question: "Cara membandingkan rencana dengan kinerja proyek dengan mengetahui...",
+            options: [
+                "A. proses proyek berjalan",
+                "B. penyebab penyimpangan",
+                "C. alokasi sumber daya",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua cara (kunci: 1,2,3)"
+        }, {
+            id: 101,
+            question: "Perusahaan melakukan kegiatan mengumpulkan data tentang proyek-proyek yang dapat dikerjakan, kemudian menganalisis kelayakannya. Kegiatan tersebut merupakan bentuk evaluasi...",
+            options: [
+                "A. Pra proyek",
+                "B. Proyek yang sedang berjalan",
+                "C. Penyelesaian proyek",
+                "D. Purna proyek"
+            ],
+            correct: 0,
+            explanation: "Evaluasi pra proyek (kunci: A)"
+        }, {
+            id: 102,
+            question: "Teknik peramalan proyek dengan memprediksi satu variabel berdasarkan variabel lain yang diketahui atau yang diasumsikan disebut...",
+            options: [
+                "A. Analisis rangkaian waktu",
+                "B. Komposisi hasil proyek",
+                "C. Model regresi",
+                "D. Model ekonometrik"
+            ],
+            correct: 2,
+            explanation: "Model regresi (kunci: C)"
+        }, {
+            id: 103,
+            question: "Dalam diagram kerja, selisih waktu antara waktu mulai lambat dengan waktu mulai dini dari masing-masing pekerjaan merupakan...",
+            options: [
+                "A. Kelonggaran waktu",
+                "B. Kontrol waktu pekerjaan",
+                "C. Waktu penyelesaian pekerjaan",
+                "D. Waktu penyelesaian tercepat"
+            ],
+            correct: 0,
+            explanation: "Kelonggaran waktu (slack) (kunci: A)"
+        }, {
+            id: 104,
+            question: "Salah satu pertimbangan penting dalam pemilihan proyek adalah dengan mengukur kesesuaian proyek dengan nilai-nilai organisasi, ini bermakna...",
+            options: [
+                "A. Proyek harus memberikan keuntungan besar",
+                "B. Proyek harus memiliki jangka pembayaran pendek",
+                "C. Proyek harus sesuai dengan sasaran organisasi jangka panjang",
+                "D. Proyek harus sesuai dengan keinginan pemangku kepentingan"
+            ],
+            correct: 2,
+            explanation: "Sesuai sasaran organisasi jangka panjang (kunci: C)"
+        }, {
+            id: 105,
+            question: "Jika dalam organisasi pengelola proyek pembangkit tenaga surya membuat tim proyek, maka susunan personel yang tergabung dalam tim proyek tersebut terdiri dari personel...",
+            options: [
+                "A. Fungsional dari organisasi induk dan konsultan eksternal",
+                "B. Fungsional dari organisasi induk dan personel inti tim",
+                "C. Inti tim dan konsultan eksternal",
+                "D. Inti tim dan wakil pemerintah setempat"
+            ],
+            correct: 1,
+            explanation: "Fungsional + personel inti (kunci: B)"
+        }, {
+            id: 106,
+            question: "Ketika manajer proyek melakukan kegiatan spesialisasi pekerjaan, hasil yang diperoleh adalah satu set jenis pekerjaan yang harus dilaksanakan. Namun manajer proyek perlu mengembangkan strategi agar seluruh kegiatan dapat dikelola dengan baik dengan cara menghitung kemampuan manajer dalam mengelola pekerjaan dan orang. Manajer tersebut sedang melaksanakan asas...",
+            options: [
+                "A. Koordinasi",
+                "B. Spesialisasi pekerjaan",
+                "C. Kepemimpinan",
+                "D. Rentang kendali"
+            ],
+            correct: 3,
+            explanation: "Rentang kendali (kunci: D)"
+        }, {
+            id: 107,
+            question: "Semua biaya terkait dengan pengembangan sistem termasuk biaya penerapannya merupakan definisi dari...",
+            options: [
+                "A. Procurement cost",
+                "B. Start up cost",
+                "C. Project related cost",
+                "D. On going cost"
+            ],
+            correct: 1,
+            explanation: "Start up cost (kunci: B)"
+        }, {
+            id: 108,
+            question: "Tim inti dari sebuah proyek adalah...",
+            options: [
+                "A. Para pemegang saham",
+                "B. Tim di kantor pusat yang menangani perencanaan, jadwal, anggaran",
+                "C. Tim pelaksana konstruksi",
+                "D. Para ahli pengawas"
+            ],
+            correct: 1,
+            explanation: "Tim inti di kantor pusat (kunci: B)"
+        }, {
+            id: 109,
+            question: "Jika pemerintah RI ingin mendapatkan donatur proyek internasional untuk membiayai proyek pembangkit tenaga listrik di suatu provinsi, maka sebelum menyusun proposal, perlu memperhitungkan...",
+            options: [
+                "A. Hubungan politik dengan negara asal",
+                "B. Kriteria donatur tentang isu atau tema yang diusung",
+                "C. Kebutuhan tenaga ahli asing",
+                "D. Teknologi dari negara donatur"
+            ],
+            correct: 1,
+            explanation: "Kriteria donatur (kunci: B)"
+        }, {
+            id: 110,
+            question: "Karakteristik umum dari sistem manajemen kualitas adalah...",
+            options: [
+                "A. mencakup aktivitas dalam organisasi modern",
+                "B. berfokus pada konsistensi dari proses kerja",
+                "C. pencegahan kesalahan bersifat proaktif",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua karakteristik (kunci: 1,2,3)"
+        }, {
+            id: 111,
+            question: "Manfaat dari sistem manajemen kualitas adalah...",
+            options: [
+                "A. Memperoleh komitmen dari pelanggan",
+                "B. Meningkatkan kepercayaan dan kepuasan pelanggan",
+                "C. Meningkatkan image perusahaan serta daya saing",
+                "D. Meningkatkan kualitas dan produktivitas kerja"
+            ],
+            correct: 1,
+            explanation: "Meningkatkan kepercayaan & kepuasan pelanggan (kunci: B, meski C juga disebut, pilih B)"
+        }, {
+            id: 112,
+            question: "Mana dari pernyataan berikut yang paling benar?",
+            options: [
+                "A. Dalam memimpin proyek, tidak diperlukan gaya kepemimpinan",
+                "B. Gaya kepemimpinan merupakan respon terhadap karakteristik lingkungan kerja dan pekerjaan",
+                "C. Gaya kepemimpinan otokratis cocok untuk memimpin proyek",
+                "D. Pemimpin harus mengendalikan dengan sangat ketat perilaku manajer dan pegawai"
+            ],
+            correct: 1,
+            explanation: "Gaya kepemimpinan merespon lingkungan kerja (kunci: B)"
+        }, {
+            id: 113,
+            question: "Manfaat studi kelayakan bagi kreditur adalah...",
+            options: [
+                "A. Memperhatikan prospek usaha keuntungan",
+                "B. Memperhatikan keamanan dana yang dipinjamkan",
+                "C. Memperhatikan manfaat proyek bagi perekonomian nasional",
+                "D. Memperhatikan risiko investasi"
+            ],
+            correct: 1,
+            explanation: "Keamanan dana yang dipinjamkan (kunci: B)"
+        }, {
+            id: 114,
+            question: "Salah satu fungsi penting manajer proyek adalah sebagai liaison yaitu fungsi manajer sebagai...",
+            options: [
+                "A. Penghubung antara organisasinya dengan pihak lain",
+                "B. Penengah jika terjadi konflik",
+                "C. Motivator dan penyemangat",
+                "D. Pemeran menyelesaikan masalah"
+            ],
+            correct: 0,
+            explanation: "Penghubung (kunci: A)"
+        }, {
+            id: 115,
+            question: "Kegunaan penjaminan mutu bagi perancang instalasi adalah...",
+            options: [
+                "A. Menyediakan data hasil inspeksi",
+                "B. Memberikan kepercayaan bahwa metode, material sesuai regulasi",
+                "C. Menjadi umpan balik pekerjaan desain engineering di masa depan",
+                "D. Mencegah pengulangan pekerjaan"
+            ],
+            correct: 2,
+            explanation: "Umpan balik desain engineering masa depan (kunci: C)"
+        }, {
+            id: 116,
+            question: "Salah satu tujuan yang ingin dicapai dari tindakan melakukan pemeliharaan mutu secara terus-menerus adalah...",
+            options: [
+                "A. Efisiensi anggaran dapat ditetapkan sejak perencanaan",
+                "B. Kerugian yang lebih besar akan dapat dikurangi",
+                "C. Tingkat kepercayaan perusahaan asuransi meningkat",
+                "D. Tingkat keakuratan penyelesaian proyek meningkat"
+            ],
+            correct: 1,
+            explanation: "Mengurangi kerugian lebih besar (kunci: B)"
+        }, {
+            id: 117,
+            question: "Ciri kualitas diri pimpinan proyek visioner adalah sebagai berikut...",
+            options: [
+                "A. kemampuan menjelaskan visi",
+                "B. kemampuan menerapkan visi ke dalam kegiatan",
+                "C. kemampuan memahami keinginan bawahan",
+                "D. A dan B benar"
+            ],
+            correct: 3,
+            explanation: "Menjelaskan & menerapkan visi (kunci: 1 & 2)"
+        }, {
+            id: 118,
+            question: "Hal yang perlu diketahui dalam studi kelayakan adalah...",
+            options: [
+                "A. ruang lingkup proyek",
+                "B. pengeluaran modal",
+                "C. sarana yang diperlukan proyek",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua hal (kunci: 1,2,3)"
+        }, {
+            id: 119,
+            question: "Penggunaan sistem standarisasi proses untuk memperoleh keluaran/output yang diharapkan pelanggan merupakan filosofi sistem jaminan kualitas dari...",
+            options: [
+                "A. Six Sigma",
+                "B. International Standard Organization (ISO)",
+                "C. Quality system",
+                "D. Malcom Baldridge"
+            ],
+            correct: 1,
+            explanation: "ISO (kunci: B)"
+        }, {
+            id: 120,
+            question: "Perusahaan perlu mengelola working capital dengan efektif dengan cara...",
+            options: [
+                "A. Mengurangi persediaan uang kas",
+                "B. Mengelola perputaran kas setiap harinya secara efektif",
+                "C. Menekan pembelian dan sewa",
+                "D. Pemangkas gaji dan belanja pegawai"
+            ],
+            correct: 1,
+            explanation: "Mengelola perputaran kas (kunci: B)"
+        }, {
+            id: 121,
+            question: "Sumber pendanaan yang bukan tipe pendanaan proyek adalah...",
+            options: [
+                "A. Sumber-sumber dana lokal",
+                "B. Korporasi",
+                "C. Dana pemerintah asing",
+                "D. Mencetak uang"
+            ],
+            correct: 3,
+            explanation: "Mencetak uang bukan sumber pendanaan proyek (kunci: D)"
+        }, {
+            id: 122,
+            question: "Jika organisasi proyek reboisasi hutan merancang struktur yang anggotanya mengerjakan pekerjaan sejenis dikelompokkan ke dalam satu unit bidang struktur piramida, hirarki vertikal, maka bentuk organisasinya adalah...",
+            options: [
+                "A. Fungsional",
+                "B. Matriks",
+                "C. Produk dan area",
+                "D. Proyek murni"
+            ],
+            correct: 0,
+            explanation: "Struktur fungsional (kunci: A)"
+        }, {
+            id: 123,
+            question: "Unsur dari sistem pengendalian proyek adalah...",
+            options: [
+                "A. efektivitas",
+                "B. input",
+                "C. output",
+                "D. B dan C benar"
+            ],
+            correct: 3,
+            explanation: "Input & output (kunci: 2 & 3)"
+        }, {
+            id: 124,
+            question: "Komponen penting dalam proposal proyek yaitu...",
+            options: [
+                "A. Jenis proyek, manajemen, biaya, dan harga",
+                "B. Jenis proyek, manajemen, biaya, dan tempat tinggal",
+                "C. Jenis proyek, pernyataan anti korupsi, biaya, harga",
+                "D. Jenis proyek, waktu, biaya, dan harga"
+            ],
+            correct: 3,
+            explanation: "Jenis proyek, waktu, biaya, harga (kunci: D)"
+        }, {
+            id: 125,
+            question: "Manfaat ukuran waktu bagi organisasi proyek adalah...",
+            options: [
+                "A. bekerja lebih terstruktur",
+                "B. bekerja lebih terkontrol",
+                "C. hemat tenaga",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua manfaat (kunci: 1,2,3)"
+        }, {
+            id: 126,
+            question: "Studi kelayakan proyek berbeda dengan studi kelayakan bisnis. Perbedaan tersebut adalah...",
+            options: [
+                "A. Studi kelayakan bisnis berfokus pada kelayakan kegiatan",
+                "B. Studi kelayakan proyek dilakukan dengan menilai kelayakan suatu proyek",
+                "C. Studi kelayakan bisnis menggunakan pendekatan kuantitatif ketat",
+                "D. Studi kelayakan proyek tidak memerlukan metode analisis tertentu"
+            ],
+            correct: 1,
+            explanation: "Studi kelayakan proyek = penilaian kelayakan proyek (kunci: B)"
+        }, {
+            id: 127,
+            question: "Pengaruh lingkungan eksternal terhadap pengambil keputusan dalam manajemen proyek adalah...",
+            options: [
+                "A. ketersediaan bahan baku",
+                "B. globalisasi",
+                "C. kebutuhan inovasi dan fleksibilitas",
+                "D. B dan C benar"
+            ],
+            correct: 3,
+            explanation: "Globalisasi & kebutuhan inovasi (kunci: 2 & 3)"
+        }, {
+            id: 128,
+            question: "ISO 14000 mencakup beberapa kelompok perangkat pengelolaan lingkungan yaitu...",
+            options: [
+                "A. manajemen lingkungan",
+                "B. audit lingkungan",
+                "C. evaluasi kinerja lingkungan",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua perangkat (kunci: 1,2,3)"
+        }, {
+            id: 129,
+            question: "Analisis mengenai dampak lingkungan merupakan kajian mengenai dampak besar dan penting suatu usaha dan atau kegiatan yang direncanakan pada lingkungan hidup yang diperlukan bagi proses...",
+            options: [
+                "A. Implementasi kebijakan ekonomi",
+                "B. Pengambilan keputusan tentang penyelenggaraan usaha di Indonesia",
+                "C. Perencanaan kinerja lingkungan",
+                "D. Pengendalian kinerja lingkungan"
+            ],
+            correct: 1,
+            explanation: "Pengambilan keputusan (kunci: B)"
+        }, {
+            id: 130,
+            question: "Aktivitas yang bukan konsep manajemen proyek adalah...",
+            options: [
+                "A. Menggunakan prinsip manajemen dengan dukungan SDM",
+                "B. Mencapai tujuan jangka panjang yang telah digariskan",
+                "C. Menggunakan pendekatan sistem",
+                "D. Memiliki arus kegiatan secara vertikal dan horizontal"
+            ],
+            correct: 1,
+            explanation: "Tujuan jangka panjang (kunci: B)"
+        }, {
+            id: 131,
+            question: "Inti dari kegiatan manajemen adalah kegiatan...",
+            options: [
+                "A. Koordinasi",
+                "B. Recruitment",
+                "C. Mengelola",
+                "D. Evaluasi"
+            ],
+            correct: 2,
+            explanation: "Mengelola (kunci: C)"
+        }, {
+            id: 132,
+            question: "Yang termasuk jenis eksternalitas produksi, adalah...",
+            options: [
+                "A. eksternalitas dis-ekonomi produksi",
+                "B. eksternalitas ekonomi produksi",
+                "C. eksternalitas ekonomi konsumsi",
+                "D. A dan B benar"
+            ],
+            correct: 3,
+            explanation: "Eksternalitas produksi: dis-ekonomi & ekonomi produksi (kunci: 1 & 2)"
+        }, {
+            id: 133,
+            question: "Contoh dari organisasi proyek yang inovatif, adalah...",
+            options: [
+                "A. Proyek pembangkit listrik mandiri di daerah sulit",
+                "B. Proyek padat karya daerah pegunungan",
+                "C. Proyek reklamasi pantai oleh swasta",
+                "D. Proyek perumahan mewah di luar Jawa"
+            ],
+            correct: 0,
+            explanation: "Proyek pembangkit listrik mandiri di daerah sulit (kunci: A)"
+        }, {
+            id: 134,
+            question: "Berikut ini yang merupakan prinsip-prinsip dari manajemen adalah...",
+            options: [
+                "A. perencanaan",
+                "B. pengorganisasian",
+                "C. pengarahan",
+                "D. semua benar"
+            ],
+            correct: 3,
+            explanation: "Semua prinsip manajemen (kunci: 1,2,3)"
+        }, {
+            id: 135,
+            question: "AMDAL dapat digunakan sebagai rekomendasi proyek jika sudah memperoleh persetujuan dari...",
+            options: [
+                "A. Pemilik perusahaan",
+                "B. Pemilik proyek",
+                "C. Kementerian lingkungan hidup",
+                "D. Masyarakat setempat dan LSM"
+            ],
+            correct: 2,
+            explanation: "Kementerian Lingkungan Hidup (kunci: C)"
+        }];
+
+        // ============================================================
+        //  2.  KONFIGURASI & STATE (sama dengan template)
+        // ============================================================
+        const TOTAL = MASTER_QUESTIONS.length;
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let answers = {};
+        let results = {};
+        let mode = 'all';
+        let selectedCount = 10;
+        let rangeStart = 1;
+        let rangeEnd = TOTAL;
+        let pickedSet = new Set();
+        let darkMode = localStorage.getItem('darkMode') === 'true';
+        let examMode = false;
+
+        // ============================================================
+        //  3.  DOM REFS
+        // ============================================================
+        const $ = id => document.getElementById(id);
+        const setupPanel = $('setupPanel');
+        const questionPanel = $('questionPanel');
+        const resultPanel = $('resultPanel');
+        const reviewPanel = $('reviewPanel');
+        const totalSoalDisplay = $('totalSoalDisplay');
+        const progressText = $('progressText');
+        const correctCount = $('correctCount');
+        const wrongCount = $('wrongCount');
+        const scorePercent = $('scorePercent');
+        const progressFill = $('progressFill');
+        const qNumDisplay = $('qNumDisplay');
+        const qIndexDisplay = $('qIndexDisplay');
+        const questionText = $('questionText');
+        const optionsContainer = $('optionsContainer');
+        const feedback = $('feedback');
+        const feedbackAnswer = $('feedbackAnswer');
+        const feedbackExplanation = $('feedbackExplanation');
+        const nextQuestionBtn = $('nextQuestionBtn');
+        const prevBtn = $('prevBtn');
+        const nextBtn = $('nextBtn');
+        const questionNav = $('questionNav');
+        const startBtn = $('startBtn');
+        const resetBtn = $('resetBtn');
+        const themeToggle = $('themeToggle');
+        const modeOptions = $('modeOptions');
+        const reviewList = $('reviewList');
+        const closeReviewBtn = $('closeReviewBtn');
+        const reviewToggleBtn = $('reviewToggleBtn');
+        const finalScore = $('finalScore');
+        const finalCorrect = $('finalCorrect');
+        const finalWrong = $('finalWrong');
+        const retryWrongBtn = $('retryWrongBtn');
+        const resultResetBtn = $('resultResetBtn');
+        const resultReviewBtn = $('resultReviewBtn');
+
+        // ============================================================
+        //  4.  UTILITY (sama)
+        // ============================================================
+        function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function getLetter(i) { return String.fromCharCode(65 + i); }
+
+        // ============================================================
+        //  5.  DARK MODE
+        // ============================================================
+        function applyTheme() {
+            document.documentElement.classList.toggle('dark', darkMode);
+            themeToggle.textContent = darkMode ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', darkMode);
+        }
+        themeToggle.addEventListener('click', () => { darkMode = !darkMode;
+            applyTheme(); });
+        applyTheme();
+
+        // ============================================================
+        //  6.  SETUP UI (sama)
+        // ============================================================
+        function renderSetupOptions() {
+            const html = [];
+            if (mode === 'all') {
+                html.push(`<p style="color:var(--text-secondary);">✅ Akan menampilkan seluruh <strong>${TOTAL}</strong> soal.</p>`);
+            }
+            if (mode === 'count') {
+                html.push(`
+                    <label>Jumlah soal:
+                        <select id="countSelect">
+                            ${[5,10,20,30,50,100].map(n => `<option value="${n}" ${n===selectedCount?'selected':''}>${n}</option>`).join('')}
+                        </select>
+                    </label>
+                `);
+            }
+            if (mode === 'range') {
+                html.push(`
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+                        <label>Dari:
+                            <input type="number" id="rangeStart" value="${rangeStart}" min="1" max="${TOTAL}" style="width:70px;">
+                        </label>
+                        <label>Sampai:
+                            <input type="number" id="rangeEnd" value="${rangeEnd}" min="1" max="${TOTAL}" style="width:70px;">
+                        </label>
+                        <span style="font-size:0.85rem;color:var(--text-secondary);">(1-${TOTAL})</span>
+                    </div>
+                `);
+            }
+            if (mode === 'pick') {
+                html.push(`
+                    <div style="display:flex;flex-wrap:wrap;gap:4px;max-height:200px;overflow-y:auto;padding:8px;border:1px solid var(--border);border-radius:8px;">
+                        ${Array.from({length:TOTAL}, (_,i) => {
+                            const num = i+1;
+                            const checked = pickedSet.has(num) ? 'checked' : '';
+                            return `<label style="display:flex;align-items:center;gap:4px;font-size:0.8rem;cursor:pointer;padding:2px 6px;border-radius:4px;background:var(--gray-light);">
+                                <input type="checkbox" value="${num}" ${checked} class="pick-checkbox">
+                                ${num}
+                            </label>`;
+                        }).join('')}
+                    </div>
+                    <div style="margin-top:6px;">
+                        <button class="btn btn-sm btn-outline" id="selectAllPick">Pilih Semua</button>
+                        <button class="btn btn-sm btn-outline" id="deselectAllPick">Hapus Semua</button>
+                    </div>
+                `);
+            }
+            if (mode === 'random') {
+                html.push(`
+                    <label>Jumlah soal acak:
+                        <input type="number" id="randomCount" value="${selectedCount}" min="1" max="${TOTAL}" style="width:80px;">
+                    </label>
+                    <span style="font-size:0.85rem;color:var(--text-secondary);">(maks ${TOTAL})</span>
+                `);
+            }
+            modeOptions.innerHTML = html.join('');
+
+            if (mode === 'count') {
+                const sel = document.getElementById('countSelect');
+                if (sel) sel.addEventListener('change', e => { selectedCount = parseInt(e.target.value) || 10; });
+            }
+            if (mode === 'range') {
+                const s = document.getElementById('rangeStart');
+                const e = document.getElementById('rangeEnd');
+                if (s) s.addEventListener('change', () => { rangeStart = Math.min(parseInt(s.value) || 1, TOTAL); });
+                if (e) e.addEventListener('change', () => { rangeEnd = Math.min(parseInt(e.value) || TOTAL, TOTAL); });
+            }
+            if (mode === 'pick') {
+                document.querySelectorAll('.pick-checkbox').forEach(cb => {
+                    cb.addEventListener('change', () => {
+                        const num = parseInt(cb.value);
+                        if (cb.checked) pickedSet.add(num);
+                        else pickedSet.delete(num);
+                    });
+                });
+                const selAll = document.getElementById('selectAllPick');
+                const deselAll = document.getElementById('deselectAllPick');
+                if (selAll) selAll.addEventListener('click', () => {
+                    document.querySelectorAll('.pick-checkbox').forEach(cb => { cb.checked = true;
+                        pickedSet.add(parseInt(cb.value)); });
+                });
+                if (deselAll) deselAll.addEventListener('click', () => {
+                    document.querySelectorAll('.pick-checkbox').forEach(cb => { cb.checked = false;
+                        pickedSet.delete(parseInt(cb.value)); });
+                });
+            }
+            if (mode === 'random') {
+                const rc = document.getElementById('randomCount');
+                if (rc) rc.addEventListener('change', () => { selectedCount = Math.min(parseInt(rc.value) || 5, TOTAL); });
+            }
+        }
+
+        document.querySelectorAll('#modeTabs .btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#modeTabs .btn').forEach(b => b.classList.remove('active-mode'));
+                btn.classList.add('active-mode');
+                mode = btn.dataset.mode;
+                if (mode !== 'pick') pickedSet.clear();
+                renderSetupOptions();
+            });
+        });
+
+        // ============================================================
+        //  7.  MEMBUAT SOAL (dengan pengacakan opsi & distribusi merata)
+        // ============================================================
+        function buildQuestions(source) {
+            const result = [];
+            const targetPositions = [];
+            for (let i = 0; i < source.length; i++) {
+                targetPositions.push(i % 4);
+            }
+            shuffle(targetPositions);
+
+            for (let i = 0; i < source.length; i++) {
+                const q = source[i];
+                const opts = q.options.slice();
+                const correctText = opts[q.correct];
+                const shuffled = shuffle(opts);
+                const newCorrect = shuffled.indexOf(correctText);
+                const targetPos = targetPositions[i % targetPositions.length];
+                const wrongOpts = opts.filter(o => o !== correctText);
+                shuffle(wrongOpts);
+                const newOpts = [];
+                for (let p = 0; p < 4; p++) {
+                    if (p === targetPos) newOpts[p] = correctText;
+                    else newOpts[p] = wrongOpts.pop();
+                }
+                result.push({
+                    id: q.id,
+                    question: q.question,
+                    options: newOpts,
+                    correct: targetPos,
+                    explanation: q.explanation || 'Penjelasan tidak tersedia.'
+                });
+            }
+            return result;
+        }
+
+        // ============================================================
+        //  8.  MEMULAI LATIHAN
+        // ============================================================
+        function startPractice() {
+            let pool = [];
+            if (mode === 'all') {
+                pool = MASTER_QUESTIONS.slice();
+            } else if (mode === 'count') {
+                const count = Math.min(selectedCount, TOTAL);
+                pool = shuffle(MASTER_QUESTIONS.slice()).slice(0, count);
+            } else if (mode === 'range') {
+                const start = Math.max(1, Math.min(rangeStart, TOTAL));
+                const end = Math.min(Math.max(rangeEnd, start), TOTAL);
+                pool = MASTER_QUESTIONS.slice(start - 1, end);
+            } else if (mode === 'pick') {
+                const ids = Array.from(pickedSet).filter(n => n >= 1 && n <= TOTAL);
+                if (ids.length === 0) {
+                    alert('Silakan pilih setidaknya 1 soal.');
+                    return;
+                }
+                pool = ids.map(id => MASTER_QUESTIONS[id - 1]).filter(Boolean);
+            } else if (mode === 'random') {
+                const count = Math.min(selectedCount, TOTAL);
+                pool = shuffle(MASTER_QUESTIONS.slice()).slice(0, count);
+            } else {
+                pool = MASTER_QUESTIONS.slice();
+            }
+
+            if (pool.length === 0) {
+                alert('Tidak ada soal yang dipilih. Silakan periksa pengaturan.');
+                return;
+            }
+
+            currentQuestions = buildQuestions(pool);
+            shuffle(currentQuestions);
+            answers = {};
+            results = {};
+            currentIndex = 0;
+
+            setupPanel.classList.add('hidden');
+            questionPanel.classList.remove('hidden');
+            resultPanel.classList.add('hidden');
+            reviewPanel.classList.add('hidden');
+
+            renderQuestion();
+            renderNav();
+            updateStats();
+        }
+
+        // ============================================================
+        //  9.  RENDER SOAL
+        // ============================================================
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+
+            qNumDisplay.textContent = `Soal ${currentIndex + 1}`;
+            qIndexDisplay.textContent = `${currentIndex + 1} / ${currentQuestions.length}`;
+            questionText.textContent = q.question;
+
+            optionsContainer.innerHTML = '';
+            const selected = answers[currentIndex];
+            const isAnswered = selected !== undefined;
+            const isCorrect = results[currentIndex];
+
+            q.options.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                if (isAnswered) div.classList.add('disabled');
+                if (isAnswered && idx === q.correct) div.classList.add('correct');
+                if (isAnswered && selected === idx && !isCorrect) div.classList.add('wrong');
+                if (isAnswered && selected === idx) div.classList.add('selected');
+
+                const letter = document.createElement('span');
+                letter.className = 'letter';
+                letter.textContent = getLetter(idx);
+
+                const text = document.createElement('span');
+                text.className = 'text';
+                text.textContent = opt;
+
+                div.appendChild(letter);
+                div.appendChild(text);
+
+                if (!isAnswered) {
+                    div.addEventListener('click', () => handleAnswer(idx));
+                }
+                optionsContainer.appendChild(div);
+            });
+
+            feedback.classList.remove('show', 'correct', 'wrong');
+            if (isAnswered) {
+                const isCorrectVal = results[currentIndex];
+                feedback.classList.add('show', isCorrectVal ? 'correct' : 'wrong');
+                const correctLetter = getLetter(q.correct);
+                const correctText = q.options[q.correct];
+                feedbackAnswer.textContent = isCorrectVal ?
+                    `✅ Benar! Jawaban: ${correctLetter}. ${correctText}` :
+                    `❌ Salah. Jawaban yang benar: ${correctLetter}. ${correctText}`;
+                feedbackExplanation.textContent = q.explanation || '';
+                nextQuestionBtn.disabled = false;
+            } else {
+                nextQuestionBtn.disabled = true;
+            }
+
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === currentQuestions.length - 1;
+
+            questionPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            renderNav();
+            updateStats();
+        }
+
+        // ============================================================
+        //  10. HANDLE ANSWER
+        // ============================================================
+        function handleAnswer(idx) {
+            if (answers[currentIndex] !== undefined) return;
+
+            const q = currentQuestions[currentIndex];
+            const isCorrect = idx === q.correct;
+            answers[currentIndex] = idx;
+            results[currentIndex] = isCorrect;
+
+            saveProgress();
+            renderQuestion();
+
+            const optDivs = optionsContainer.querySelectorAll('.option');
+            optDivs.forEach((div, i) => {
+                if (i === q.correct) div.classList.add('correct');
+                if (i === idx && !isCorrect) div.classList.add('wrong');
+                if (i === idx) div.classList.add('selected');
+            });
+
+            if (examMode) {
+                feedback.classList.remove('show');
+                const allAnswered = currentQuestions.every((_, i) => answers[i] !== undefined);
+                if (allAnswered) {
+                    showResult();
+                }
+                renderNav();
+                updateStats();
+                nextQuestionBtn.disabled = false;
+            } else {
+                nextQuestionBtn.disabled = false;
+            }
+            updateStats();
+        }
+
+        // ============================================================
+        //  11. NAVIGASI
+        // ============================================================
+        function goToQuestion(index) {
+            if (index < 0 || index >= currentQuestions.length) return;
+            currentIndex = index;
+            renderQuestion();
+        }
+
+        prevBtn.addEventListener('click', () => goToQuestion(currentIndex - 1));
+        nextBtn.addEventListener('click', () => goToQuestion(currentIndex + 1));
+        nextQuestionBtn.addEventListener('click', () => {
+            if (currentIndex < currentQuestions.length - 1) {
+                goToQuestion(currentIndex + 1);
+            } else {
+                if (examMode) {
+                    showResult();
+                } else {
+                    const allAnswered = currentQuestions.every((_, i) => answers[i] !== undefined);
+                    if (allAnswered) {
+                        showResult();
+                    } else {
+                        alert('Masih ada soal yang belum dijawab!');
+                    }
+                }
+            }
+        });
+
+        // ============================================================
+        //  12. NAVIGASI SOAL (grid)
+        // ============================================================
+        function renderNav() {
+            questionNav.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const span = document.createElement('span');
+                span.className = 'qn';
+                span.textContent = i + 1;
+                if (i === currentIndex) span.classList.add('current');
+                else if (answers[i] !== undefined) {
+                    span.classList.add(results[i] ? 'answered-correct' : 'answered-wrong');
+                }
+                span.addEventListener('click', () => goToQuestion(i));
+                questionNav.appendChild(span);
+            });
+        }
+
+        // ============================================================
+        //  13. STATS
+        // ============================================================
+        function updateStats() {
+            const total = currentQuestions.length;
+            const answered = Object.keys(answers).length;
+            const correct = Object.values(results).filter(v => v === true).length;
+            const wrong = Object.values(results).filter(v => v === false).length;
+            const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+            progressText.textContent = `${answered}/${total}`;
+            correctCount.textContent = correct;
+            wrongCount.textContent = wrong;
+            scorePercent.textContent = pct + '%';
+            progressFill.style.width = total > 0 ? `${(answered/total)*100}%` : '0%';
+        }
+
+        // ============================================================
+        //  14. HASIL
+        // ============================================================
+        function showResult() {
+            const total = currentQuestions.length;
+            const correct = Object.values(results).filter(v => v === true).length;
+            const wrong = total - correct;
+            const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+            finalScore.textContent = pct + '%';
+            finalCorrect.textContent = correct;
+            finalWrong.textContent = wrong;
+
+            questionPanel.classList.add('hidden');
+            resultPanel.classList.remove('hidden');
+            reviewPanel.classList.add('hidden');
+
+            saveProgress();
+        }
+
+        // ============================================================
+        //  15. REVIEW
+        // ============================================================
+        function renderReview(filter = 'all') {
+            reviewList.innerHTML = '';
+            let items = currentQuestions.map((q, i) => ({ q, i, answered: answers[i] !== undefined, correct: results[i] }));
+
+            if (filter === 'correct') items = items.filter(it => it.answered && it.correct);
+            else if (filter === 'wrong') items = items.filter(it => it.answered && !it.correct);
+            else if (filter === 'unanswered') items = items.filter(it => !it.answered);
+
+            if (items.length === 0) {
+                reviewList.innerHTML = '<p style="color:var(--text-secondary);padding:12px;">Tidak ada soal dalam kategori ini.</p>';
+                return;
+            }
+
+            items.forEach(({ q, i, answered, correct }) => {
+                const div = document.createElement('div');
+                div.className = 'review-item';
+                const num = document.createElement('span');
+                num.className = 'r-num';
+                num.textContent = i + 1;
+                const qText = document.createElement('span');
+                qText.className = 'r-q';
+                qText.textContent = q.question;
+                const ans = document.createElement('span');
+                ans.className = `r-answer ${answered ? (correct ? 'correct' : 'wrong') : ''}`;
+                if (answered) {
+                    const letter = getLetter(q.correct);
+                    ans.textContent = `✓ ${letter}. ${q.options[q.correct]}`;
+                } else {
+                    ans.textContent = '⏳ Belum dijawab';
+                }
+                div.appendChild(num);
+                div.appendChild(qText);
+                div.appendChild(ans);
+                reviewList.appendChild(div);
+            });
+        }
+
+        reviewToggleBtn.addEventListener('click', () => {
+            if (reviewPanel.classList.contains('hidden')) {
+                reviewPanel.classList.remove('hidden');
+                renderReview('all');
+            } else {
+                reviewPanel.classList.add('hidden');
+            }
+        });
+
+        closeReviewBtn.addEventListener('click', () => {
+            reviewPanel.classList.add('hidden');
+        });
+
+        document.querySelectorAll('.review-filter .btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.review-filter .btn').forEach(b => b.classList.remove('active-review-filter'));
+                btn.classList.add('active-review-filter');
+                renderReview(btn.dataset.filter);
+            });
+        });
+
+        // ============================================================
+        //  16. RESET & RETRY
+        // ============================================================
+        function resetAll() {
+            answers = {};
+            results = {};
+            currentQuestions = [];
+            currentIndex = 0;
+            setupPanel.classList.remove('hidden');
+            questionPanel.classList.add('hidden');
+            resultPanel.classList.add('hidden');
+            reviewPanel.classList.add('hidden');
+            localStorage.removeItem('quizProgress');
+            updateStats();
+        }
+
+        resetBtn.addEventListener('click', resetAll);
+        resultResetBtn.addEventListener('click', resetAll);
+
+        retryWrongBtn.addEventListener('click', () => {
+            const wrongIndices = Object.keys(results).filter(k => results[k] === false).map(Number);
+            if (wrongIndices.length === 0) {
+                alert('Tidak ada soal yang salah! 🎉');
+                return;
+            }
+            const wrongQuestions = wrongIndices.map(i => currentQuestions[i]);
+            currentQuestions = buildQuestions(wrongQuestions);
+            shuffle(currentQuestions);
+            answers = {};
+            results = {};
+            currentIndex = 0;
+            resultPanel.classList.add('hidden');
+            questionPanel.classList.remove('hidden');
+            renderQuestion();
+            renderNav();
+            updateStats();
+        });
+
+        resultReviewBtn.addEventListener('click', () => {
+            resultPanel.classList.add('hidden');
+            reviewPanel.classList.remove('hidden');
+            renderReview('all');
+        });
+
+        // ============================================================
+        //  17. LOCAL STORAGE
+        // ============================================================
+        function saveProgress() {
+            try {
+                const data = {
+                    questions: currentQuestions.map(q => q.id),
+                    answers: answers,
+                    results: results,
+                    index: currentIndex,
+                    mode: mode,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('quizProgress', JSON.stringify(data));
+            } catch (e) { /* ignore */ }
+        }
+
+        function loadProgress() {
+            try {
+                const raw = localStorage.getItem('quizProgress');
+                if (!raw) return false;
+                const data = JSON.parse(raw);
+                if (!data.questions || !data.answers) return false;
+                const ids = data.questions;
+                const valid = ids.every(id => MASTER_QUESTIONS.some(q => q.id === id));
+                if (!valid) return false;
+                const pool = ids.map(id => MASTER_QUESTIONS.find(q => q.id === id)).filter(Boolean);
+                if (pool.length === 0) return false;
+                currentQuestions = buildQuestions(pool);
+                const orderMap = {};
+                data.questions.forEach((id, idx) => { orderMap[id] = idx; });
+                currentQuestions.sort((a, b) => (orderMap[a.id] || 0) - (orderMap[b.id] || 0));
+                answers = data.answers || {};
+                results = data.results || {};
+                currentIndex = Math.min(data.index || 0, currentQuestions.length - 1);
+                Object.keys(answers).forEach(k => {
+                    const idx = parseInt(k);
+                    if (idx >= currentQuestions.length) delete answers[k];
+                });
+                Object.keys(results).forEach(k => {
+                    const idx = parseInt(k);
+                    if (idx >= currentQuestions.length) delete results[k];
+                });
+                return true;
+            } catch (e) { return false; }
+        }
+
+        // ============================================================
+        //  18. INIT
+        // ============================================================
+        function init() {
+            totalSoalDisplay.textContent = TOTAL;
+            renderSetupOptions();
+
+            const hasProgress = loadProgress();
+            if (hasProgress && currentQuestions.length > 0) {
+                setupPanel.classList.add('hidden');
+                questionPanel.classList.remove('hidden');
+                renderQuestion();
+                renderNav();
+                updateStats();
+                const allAnswered = currentQuestions.every((_, i) => answers[i] !== undefined);
+                if (allAnswered && Object.keys(answers).length > 0) {
+                    showResult();
+                }
+            } else {
+                resetAll();
+            }
+
+            startBtn.addEventListener('click', () => {
+                if (Object.keys(answers).length > 0) {
+                    if (!confirm('Latihan sedang berjalan. Mulai ulang?')) return;
+                }
+                startPractice();
+            });
+
+            const examCheck = document.createElement('div');
+            examCheck.style.marginTop = '12px';
+            examCheck.innerHTML = `
+                <label style="display:flex;align-items:center;gap:8px;font-size:0.9rem;cursor:pointer;">
+                    <input type="checkbox" id="examModeCheck" ${examMode?'checked':''}>
+                    🎯 Mode Ujian (hasil & pembahasan di akhir)
+                </label>
+            `;
+            setupPanel.querySelector('.setup-actions').before(examCheck);
+            document.getElementById('examModeCheck').addEventListener('change', function() {
+                examMode = this.checked;
+            });
+
+            document.querySelector('#modeTabs .btn[data-mode="all"]')?.click();
+        }
+
+        init();
+        console.log(`✅ ${TOTAL} soal Manajemen Proyek berhasil dimuat.`);
+    </script>
+</body>
+</html>
