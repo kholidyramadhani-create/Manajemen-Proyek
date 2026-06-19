@@ -1,11 +1,11 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Latihan Soal Manajemen Proyek</title>
     <style>
-        /* ===== RESET & VARIABEL (sama seperti template) ===== */
+        /* ===== RESET & VARIABEL ===== */
         * {
             margin: 0;
             padding: 0;
@@ -577,6 +577,46 @@
         .theme-toggle:hover {
             background: var(--gray-light);
         }
+
+        /* ===== QRIS STYLING ===== */
+        .qris-section {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 2px dashed var(--border);
+            text-align: center;
+        }
+        .qris-section .qris-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .qris-section .qris-image {
+            max-width: 180px;
+            width: 100%;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--border);
+            transition: transform 0.2s;
+            display: block;
+            margin: 0 auto;
+        }
+        .qris-section .qris-image:hover {
+            transform: scale(1.02);
+        }
+        .qris-section .qris-caption {
+            margin-top: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+        .qris-section .qris-sub {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
     </style>
 </head>
 <body>
@@ -629,6 +669,14 @@
             <div style="margin-top:12px;font-size:0.85rem;color:var(--text-secondary);">
                 💡 Pilih mode lalu klik "Mulai Latihan"
             </div>
+
+            <!-- ===== QRIS SECTION ===== -->
+            <div class="qris-section">
+                <div class="qris-title">💳 Dukung Perjalanan Ibadah</div>
+                <img src="IMG_2166.png" alt="QRIS" class="qris-image" />
+                <div class="qris-caption">Gasan Naik Haji</div>
+                <div class="qris-sub">Scan QRIS untuk berdonasi</div>
+            </div>
         </div>
 
         <!-- ===== PANEL SOAL ===== -->
@@ -656,6 +704,8 @@
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
                 <button class="btn btn-success" id="nextQuestionBtn" disabled>➡️ Soal Berikutnya</button>
                 <button class="btn btn-outline" id="reviewToggleBtn">📋 Review</button>
+                <!-- Tombol Mulai Ulang di panel soal -->
+                <button class="btn btn-outline" id="restartFromQuestionBtn" style="color:var(--danger);border-color:var(--danger);">🔄 Mulai Ulang Latihan</button>
             </div>
 
             <div class="scroll-x mt-12">
@@ -2190,7 +2240,7 @@
         }];
 
         // ============================================================
-        //  2.  KONFIGURASI & STATE (sama dengan template)
+        //  2.  KONFIGURASI & STATE
         // ============================================================
         const TOTAL = MASTER_QUESTIONS.length;
         let currentQuestions = [];
@@ -2243,9 +2293,10 @@
         const retryWrongBtn = $('retryWrongBtn');
         const resultResetBtn = $('resultResetBtn');
         const resultReviewBtn = $('resultReviewBtn');
+        const restartFromQuestionBtn = $('restartFromQuestionBtn');
 
         // ============================================================
-        //  4.  UTILITY (sama)
+        //  4.  UTILITY
         // ============================================================
         function shuffle(arr) {
             for (let i = arr.length - 1; i > 0; i--) {
@@ -2270,7 +2321,7 @@
         applyTheme();
 
         // ============================================================
-        //  6.  SETUP UI (sama)
+        //  6.  SETUP UI
         // ============================================================
         function renderSetupOptions() {
             const html = [];
@@ -2720,6 +2771,11 @@
 
         resetBtn.addEventListener('click', resetAll);
         resultResetBtn.addEventListener('click', resetAll);
+        restartFromQuestionBtn.addEventListener('click', () => {
+            if (confirm('Yakin ingin mengulang latihan dari awal? Progress akan direset.')) {
+                resetAll();
+            }
+        });
 
         retryWrongBtn.addEventListener('click', () => {
             const wrongIndices = Object.keys(results).filter(k => results[k] === false).map(Number);
